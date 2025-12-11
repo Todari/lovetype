@@ -37,7 +37,7 @@ export default function ProgressBar({ currentIndex, answers }: ProgressBarProps)
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2">
         <div
-          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+          className="bg-rose-500 h-2 rounded-full transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -48,7 +48,7 @@ export default function ProgressBar({ currentIndex, answers }: ProgressBarProps)
             <div className="w-full bg-gray-100 rounded-full h-1">
               <div
                 className={`h-1 rounded-full transition-all duration-300 ${
-                  progress === 100 ? "bg-green-500" : "bg-gray-300"
+                  progress === 100 ? "bg-rose-400" : "bg-gray-300"
                 }`}
                 style={{ width: `${progress}%` }}
               />

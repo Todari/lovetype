@@ -80,7 +80,7 @@ export default function Likert({ value, onChange }: LikertProps) {
                   active:outline-none
                   ${
                     isSelected
-                      ? "text-red-500 scale-110"
+                      ? "text-rose-600 scale-110"
                       : "text-gray-300 hover:text-gray-400 hover:scale-105"
                   }
                 `}

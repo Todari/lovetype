@@ -9,9 +9,10 @@ interface ShareButtonsProps {
 export default function ShareButtons({ code }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
-  const shareUrl = typeof window !== "undefined" 
-    ? `${window.location.origin}/results/${code}?from=share`
-    : "";
+  const shareUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/results/${code}?from=share`
+      : "";
 
   const handleCopy = async () => {
     try {
@@ -29,13 +30,13 @@ export default function ShareButtons({ code }: ShareButtonsProps) {
         type="button"
         onClick={handleCopy}
         className={`
-          px-6 py-3 rounded-lg font-medium transition-all
+          px-6 py-3 font-medium transition-colors rounded-lg
           ${
             copied
-              ? "bg-green-600 text-white"
-              : "bg-blue-600 text-white hover:bg-blue-700"
+              ? "bg-gray-700 text-white"
+              : "bg-rose-500 text-white hover:bg-rose-600"
           }
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+          focus:outline-none
         `}
       >
         {copied ? "✓ 링크 복사됨!" : "결과 링크 복사하기"}
@@ -46,4 +47,3 @@ export default function ShareButtons({ code }: ShareButtonsProps) {
     </div>
   );
 }
-

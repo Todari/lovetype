@@ -33,7 +33,7 @@ export default function QuestionCard({
     <div className="w-full max-w-2xl mx-auto space-y-8">
       <ProgressBar currentIndex={currentIndex} answers={answers} />
 
-      <div className="bg-white rounded-xl shadow-lg p-4 md:p-8 space-y-6 md:space-y-8">
+      <div className="bg-white rounded-2xl p-4 md:p-8 space-y-6 md:space-y-8">
         <div className="text-center">
           <div className="text-sm text-gray-500 mb-2">
             질문 {currentIndex + 1} / {total}
@@ -51,13 +51,13 @@ export default function QuestionCard({
             onClick={onPrevious}
             disabled={currentIndex === 0}
             className={`
-              px-6 py-3 rounded-lg font-medium transition-all
+              px-6 py-3 font-medium transition-colors rounded-lg
               ${
                 currentIndex === 0
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : "bg-gray-200 text-gray-900 hover:bg-gray-300"
               }
-              focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
+              focus:outline-none
             `}
           >
             이전
@@ -67,7 +67,7 @@ export default function QuestionCard({
               <button
                 type="button"
                 onClick={onTestMode}
-                className="px-4 py-3 rounded-lg font-medium transition-all bg-purple-600 text-white hover:bg-purple-700 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="px-4 py-3 font-medium transition-colors bg-gray-800 text-white hover:bg-gray-900 text-sm rounded-lg focus:outline-none"
                 title="테스트용: 모든 질문을 기본값으로 채우고 바로 결과로 이동"
               >
                 🧪 테스트
@@ -78,13 +78,13 @@ export default function QuestionCard({
               onClick={onNext}
               disabled={!canProceed}
               className={`
-                px-6 py-3 rounded-lg font-medium transition-all
+                px-6 py-3 font-medium transition-colors rounded-lg
                 ${
                   canProceed
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                    ? "bg-rose-500 text-white hover:bg-rose-600"
                     : "bg-gray-100 text-gray-400 cursor-not-allowed"
                 }
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                focus:outline-none
               `}
             >
               {currentIndex === total - 1 ? "결과 보기" : "다음"}

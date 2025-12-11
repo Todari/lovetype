@@ -20,6 +20,9 @@ export default function ResultsPage({ params }: PageProps) {
   const [isFromTest, setIsFromTest] = useState(false);
 
   useEffect(() => {
+    // Scroll to top when navigating to a new result page
+    window.scrollTo(0, 0);
+
     // Validate code format (4 letters, valid poles)
     const validPoles = ["L", "F", "C", "A", "R", "P", "O", "E"];
     if (
@@ -31,7 +34,7 @@ export default function ResultsPage({ params }: PageProps) {
     }
 
     // Try to load from localStorage - only show accurate results if from actual test
-    const saved = localStorage.getItem("lovetype_answers");
+    const saved = localStorage.getItem("lvti_answers");
     if (saved) {
       try {
         const answers: AnswerMap = JSON.parse(saved);
@@ -83,7 +86,7 @@ export default function ResultsPage({ params }: PageProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-700">
             결과를 불러오는 중...
@@ -98,14 +101,14 @@ export default function ResultsPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="max-w-[640px] mx-auto space-y-5">
         {!isFromTest && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
-            <p className="text-yellow-800 font-medium mb-2">
+          <div className="bg-gray-200 rounded-xl p-5 text-center">
+            <p className="text-gray-800 font-medium mb-2 text-[15px]">
               💡 이 유형에 대한 정확한 분석을 보려면 테스트를 완료해주세요
             </p>
-            <p className="text-sm text-yellow-700">
+            <p className="text-sm text-gray-700">
               현재는 유형 정보만 표시됩니다. 정확한 축별 점수와 분석을 보려면
               테스트를 진행해주세요.
             </p>
@@ -113,24 +116,24 @@ export default function ResultsPage({ params }: PageProps) {
         )}
         <ResultCard result={result} isFromTest={isFromTest} />
 
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-white rounded-xl p-5">
           <ShareButtons code={result.code} />
         </div>
 
-        <div className="text-center space-y-4">
+        <div className="text-center">
           <button
             type="button"
             onClick={() => {
-              localStorage.removeItem("lovetype_answers");
-              router.push("/");
+              localStorage.removeItem("lvti_answers");
+              router.push("/test");
             }}
-            className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+            className="px-6 py-3 bg-gray-200 text-gray-900 font-medium hover:bg-gray-300 transition-colors rounded-lg focus:outline-none"
           >
             다시 테스트하기
           </button>
         </div>
 
-        <footer className="text-center text-sm text-gray-600 space-y-2 pt-8 border-t border-gray-200">
+        <footer className="text-center text-sm text-gray-600 space-y-2 pt-6 border-t border-gray-200">
           <p>
             <strong>면책 조항:</strong> 이 테스트는 독립적으로 제작된 비공식
             테스트이며, 엔터테인먼트 목적으로만 사용됩니다.
