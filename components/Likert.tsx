@@ -33,14 +33,14 @@ export default function Likert({ value, onChange }: LikertProps) {
     6: "w-12 h-12", // 가장 작음 (오른쪽 끝) - 아니다, 그렇다 방향 고려
   };
 
-  // 실제로는 중앙이 작고 양 끝이 커야 하므로 재조정
+  // 실제로는 중앙이 작고 양 끝이 커야 하므로 재조정 (모바일 대응을 위해 크기 축소)
   const actualSizeMap: Record<number, string> = {
-    1: "w-14 h-14", // 왼쪽 끝 - 가장 큼
-    2: "w-12 h-12",
-    3: "w-10 h-10", // 중앙 - 작음
-    4: "w-10 h-10", // 중앙 - 작음
-    5: "w-12 h-12",
-    6: "w-14 h-14", // 오른쪽 끝 - 가장 큼
+    1: "w-10 h-10", // 왼쪽 끝 - 가장 큼
+    2: "w-9 h-9",
+    3: "w-8 h-8", // 중앙 - 작음
+    4: "w-8 h-8", // 중앙 - 작음
+    5: "w-9 h-9",
+    6: "w-10 h-10", // 오른쪽 끝 - 가장 큼
   };
 
   return (
@@ -52,14 +52,14 @@ export default function Likert({ value, onChange }: LikertProps) {
       </div>
 
       {/* Heart buttons */}
-      <div className="flex items-center justify-center gap-3 md:gap-4 px-4">
+      <div className="flex items-center justify-center gap-2 md:gap-3 px-2">
         {[1, 2, 3, 4, 5, 6].map((num) => {
           const numValue = num as 1 | 2 | 3 | 4 | 5 | 6;
           const isSelected = value === numValue;
           const sizeClass = actualSizeMap[num];
 
           return (
-            <div key={num} className="h-14 flex items-center justify-center">
+            <div key={num} className="h-12 flex items-center justify-center">
               <button
                 type="button"
                 onClick={() => onChange(numValue)}

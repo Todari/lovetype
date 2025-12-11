@@ -5,10 +5,10 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className="w-full bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-[640px] mx-auto px-4 py-3 flex items-center justify-between">
         <Link
           href="/"
-          className="text-2xl font-bold text-rose-500 hover:text-rose-600 transition-colors"
+          className="text-xl font-bold text-rose-500 hover:text-rose-600 transition-colors"
         >
           LVTI
         </Link>
@@ -22,4 +22,3 @@ export default function Header() {
     </header>
   );
 }
-

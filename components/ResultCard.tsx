@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Result } from "@/lib/types";
 import { getCompatibility } from "@/lib/copy";
 import { getTypeDetails } from "@/lib/typeDetails";
+import { TYPE_NAMES } from "@/lib/typeNames";
 
 interface ResultCardProps {
   result: Result;
@@ -49,15 +50,21 @@ export default function ResultCard({
 }: ResultCardProps) {
   const isBalanced = result.axes.some((axis) => Math.abs(axis.value) < 0.5);
   const typeDetails = getTypeDetails(result.code);
+  const typeInfo = TYPE_NAMES.find((type) => type.code === result.code);
 
   return (
-    <div className="w-full max-w-[640px] mx-auto px-4 space-y-5">
+    <div className="w-full max-w-[640px] mx-auto space-y-5">
       {/* Type Code Badge */}
       <div className="text-center space-y-3">
         <div className="inline-block">
           <div className="text-4xl font-bold text-rose-500 mb-2">
             {result.code}
           </div>
+          {typeInfo && (
+            <div className="text-lg font-semibold text-gray-800 mb-2">
+              {typeInfo.name}
+            </div>
+          )}
           {isBalanced && isFromTest && (
             <span className="inline-block px-3 py-1 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg">
               균형형
@@ -73,7 +80,12 @@ export default function ResultCard({
           {result.axes.map((axis) => {
             const labels = AXIS_LABELS[axis.pair];
             const isFirst = axis.pole === "first";
-            const displayPercent = axis.percent;
+            // 중간(50%)에서 떨어진 거리를 더해서 표시: 50% + percent
+            const displayPercent = 50 + axis.percent;
+            // 그래프에서 중간에서 선택된 극단까지의 비율
+            const graphPercent = axis.percent;
+            // CA(표현/절제)와 OE(낙관/성실)는 오른쪽에서 시작, 나머지는 왼쪽에서 시작
+            const isRightToLeft = axis.pair === "CA" || axis.pair === "OE";
 
             return (
               <div key={axis.pair} className="space-y-2">
@@ -90,24 +102,30 @@ export default function ResultCard({
                   </span>
                 </div>
                 <div className="relative h-9 bg-gray-100 rounded-full overflow-hidden">
+                  {/* 중간선 (50% 지점) */}
                   <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 z-10 transform -translate-x-1/2" />
-                  {isFirst && displayPercent > 0 && (
+
+                  {/* 그래프: 축에 따라 왼쪽 또는 오른쪽에서 시작 */}
+                  {!isRightToLeft && graphPercent > 0 && (
+                    // LF, RP 축: 왼쪽(주도/현실) 시작부터 선택된 쪽의 퍼센트까지
                     <div
-                      className="absolute left-1/2 top-0 bottom-0 bg-rose-400 transition-all duration-500 z-0"
+                      className="absolute left-0 top-0 bottom-0 bg-rose-400 transition-all duration-500 z-0"
                       style={{
-                        width: `${displayPercent / 2}%`,
-                        transform: "translateX(-100%)",
+                        width: `${displayPercent}%`,
                       }}
                     />
                   )}
-                  {!isFirst && displayPercent > 0 && (
+                  {isRightToLeft && graphPercent > 0 && (
+                    // CA, OE 축: 오른쪽(절제/성실) 시작부터 선택된 쪽의 퍼센트까지
                     <div
-                      className="absolute left-1/2 top-0 bottom-0 bg-rose-400 transition-all duration-500 z-0"
+                      className="absolute right-0 top-0 bottom-0 bg-rose-400 transition-all duration-500 z-0"
                       style={{
-                        width: `${displayPercent / 2}%`,
+                        width: `${displayPercent}%`,
                       }}
                     />
                   )}
+
+                  {/* 퍼센트 표시: 중간 기준으로 계산된 값 */}
                   <div className="absolute inset-0 flex items-center justify-center z-20">
                     <div className="text-xs font-semibold text-gray-800 bg-white px-2.5 py-1 rounded-full">
                       {Math.round(displayPercent)}%
@@ -197,7 +215,7 @@ export default function ResultCard({
 
       {/* Compatibility Section */}
       <div className="bg-gray-100 rounded-xl p-5 space-y-4">
-        <h3 className="text-lg font-bold text-gray-900">💕 궁합 정보</h3>
+        <h3 className="text-lg font-bold text-gray-900">궁합 정보</h3>
         <div className="text-[15px] text-gray-800 leading-loose">
           {getCompatibility(result.code).description}
         </div>

@@ -27,10 +27,12 @@ export default function TypesPage() {
               key={type.code}
               href={`/results/${type.code}?from=share`}
               scroll={true}
-              className="bg-white rounded-xl p-4 hover:bg-gray-50 transition-colors border border-gray-200 hover:border-rose-300 hover:shadow-sm"
+              className="bg-white rounded-xl p-4 hover:bg-gray-50 transition-colors hover:shadow-sm"
             >
               <div className="space-y-2">
-                <div className="text-lg font-bold text-rose-500">{type.code}</div>
+                <div className="text-lg font-bold text-rose-500">
+                  {type.code}
+                </div>
                 <div className="text-sm font-semibold text-gray-900 leading-tight">
                   {type.name}
                 </div>
@@ -45,13 +47,11 @@ export default function TypesPage() {
         {/* 안내 */}
         <div className="bg-gray-100 rounded-xl p-5 text-center">
           <p className="text-sm text-gray-700">
-            각 유형을 클릭하면 해당 유형의 상세한 해설, 강점, 주의할 점, 그리고 궁합 정보를 확인할 수 있습니다.
+            각 유형을 클릭하면 해당 유형의 상세한 해설, 강점, 주의할 점, 그리고
+            궁합 정보를 확인할 수 있습니다.
           </p>
         </div>
       </div>
     </div>
   );
 }
-
-
-
