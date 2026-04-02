@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { TYPE_NAMES } from "@/lib/typeNames";
 
 interface ShareButtonsProps {
   code: string;
@@ -12,6 +13,7 @@ export default function ShareButtons({
   code,
   isFromTest = false,
 }: ShareButtonsProps) {
+  const typeName = TYPE_NAMES.find((t) => t.code === code)?.name || code;
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [canShare, setCanShare] = useState(false);
@@ -45,8 +47,8 @@ export default function ShareButtons({
     if (canShare) {
       try {
         await navigator.share({
-          title: `LVTI - 나의 관계 유형은 ${code}`,
-          text: "나의 관계 유형 결과를 확인해보세요!",
+          title: `나의 관계 유형은 '${typeName}'`,
+          text: `나의 LVTI 관계 유형은 '${typeName}'이래! 너도 확인해봐`,
           url: shareUrl,
         });
       } catch (err) {
@@ -55,7 +57,7 @@ export default function ShareButtons({
         }
       }
     } else {
-      const text = `나의 LVTI 관계 유형은 ${code}! 나의 관계 유형을 확인해보세요`;
+      const text = `나의 LVTI 관계 유형은 '${typeName}'! 너도 확인해봐`;
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
       window.open(twitterUrl, "_blank", "noopener,noreferrer");
     }

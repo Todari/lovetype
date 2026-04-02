@@ -4,13 +4,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "LVTI - 사랑 유형 테스트",
+  title: "LVTI - 연애할 때, 당신은 어떤 사람인가요?",
   description:
-    "Love Test Investigation - 16가지 사랑 유형을 알아보는 테스트입니다. 엔터테인먼트 목적으로만 사용하세요.",
+    "32개의 질문으로 알아보는 나의 관계 유형. 16가지 유형 중 당신은 어떤 타입인지 확인해보세요.",
   openGraph: {
-    title: "LVTI - 사랑 유형 테스트",
+    title: "LVTI - 연애할 때, 당신은 어떤 사람인가요?",
     description:
-      "Love Test Investigation - 16가지 사랑 유형을 알아보는 테스트입니다.",
+      "32개의 질문으로 알아보는 나의 관계 유형. 16가지 유형 중 당신은 어떤 타입인지 확인해보세요.",
     type: "website",
   },
 };

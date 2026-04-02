@@ -93,20 +93,20 @@ export default function CompareClient({ code1, code2 }: CompareClientProps) {
           <div className="flex items-center justify-center gap-4">
             <div className="text-center">
               <Link href={`/results/${code1}?from=share`}>
-                <div className="text-3xl font-bold text-rose-500">{code1}</div>
+                <div className="text-lg md:text-xl font-bold text-gray-900">{typeName1}</div>
+                <span className="inline-block mt-1 px-2.5 py-0.5 bg-rose-50 text-rose-500 text-xs font-bold rounded-full border border-rose-200">
+                  {code1}
+                </span>
               </Link>
-              <div className="text-sm font-semibold text-gray-800 mt-1">
-                {typeName1}
-              </div>
             </div>
             <div className="text-2xl">{"\u{1F495}"}</div>
             <div className="text-center">
               <Link href={`/results/${code2}?from=share`}>
-                <div className="text-3xl font-bold text-rose-500">{code2}</div>
+                <div className="text-lg md:text-xl font-bold text-gray-900">{typeName2}</div>
+                <span className="inline-block mt-1 px-2.5 py-0.5 bg-rose-50 text-rose-500 text-xs font-bold rounded-full border border-rose-200">
+                  {code2}
+                </span>
               </Link>
-              <div className="text-sm font-semibold text-gray-800 mt-1">
-                {typeName2}
-              </div>
             </div>
           </div>
 
