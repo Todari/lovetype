@@ -1,14 +1,7 @@
-"use client";
-
-import { useEffect } from "react";
 import Link from "next/link";
 import { TYPE_NAMES } from "@/lib/typeNames";
 
 export default function TypesPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-[640px] mx-auto space-y-6">

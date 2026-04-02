@@ -1,14 +1,6 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleStart = () => {
-    router.push("/test");
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-[640px] mx-auto space-y-6">
@@ -19,7 +11,7 @@ export default function Home() {
           <p className="text-lg text-gray-600">Love Type Indicator</p>
         </div>
 
-        {/* 소개 섹션 */}
+        {/* 소개 + CTA */}
         <div className="bg-white rounded-xl p-5 space-y-4">
           <h2 className="text-xl font-bold text-gray-900">LVTI란?</h2>
           <div className="text-[15px] text-gray-800 leading-loose space-y-3">
@@ -28,17 +20,13 @@ export default function Home() {
               테스트입니다. 각 축에서의 성향을 조합하여 총 16가지의 관계 유형 중
               하나로 분류됩니다.
             </p>
-            <p>
-              이 테스트는 당신이 연애와 인간관계에서 어떤 스타일을 가지고
-              있는지, 어떤 강점과 주의할 점이 있는지, 그리고 어떤 유형의
-              사람들과 잘 맞는지에 대한 통찰을 제공합니다.
-            </p>
-            <p>
-              결과는 상세한 해설과 함께 제공되며, 각 유형의 특징, 강점, 주의할
-              점, 그리고 관계에서의 발전 방향에 대한 구체적인 가이드를
-              포함합니다.
-            </p>
           </div>
+          <Link
+            href="/test"
+            className="block w-full bg-rose-500 text-white py-4 rounded-lg font-semibold text-lg hover:bg-rose-600 transition-colors text-center"
+          >
+            테스트 시작하기
+          </Link>
         </div>
 
         {/* 4개 축 설명 */}
@@ -99,26 +87,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 16가지 유형 설명 */}
-        <div className="bg-white rounded-xl p-5 space-y-4">
-          <h2 className="text-xl font-bold text-gray-900">16가지 관계 유형</h2>
-          <div className="text-[15px] text-gray-800 leading-loose">
-            <p>
-              4개의 축을 조합하면 총 16가지의 고유한 관계 유형이 만들어집니다.
-              각 유형은 독특한 특성과 강점을 가지고 있으며, 연애와 인간관계에서
-              다른 방식으로 작동합니다.
-            </p>
-            <p className="mt-3">
-              테스트를 완료하면 당신의 유형에 대한 상세한 해설을 받을 수 있으며,
-              해당 유형의 사회·직장 관계 특징, 연애 관계 특징, 강점과 주의할 점,
-              그리고 관계에서의 발전 방향에 대한 구체적인 가이드를 확인할 수
-              있습니다.
-            </p>
-          </div>
-        </div>
-
         {/* 테스트 특징 */}
-        <div className="bg-gray-50 rounded-xl p-5 space-y-4">
+        <div className="bg-white rounded-xl p-5 space-y-4">
           <h2 className="text-xl font-bold text-gray-900">테스트 특징</h2>
           <div className="space-y-3 text-left">
             <div className="flex items-start gap-3">
@@ -175,14 +145,13 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 시작 버튼 */}
-        <button
-          type="button"
-          onClick={handleStart}
-          className="w-full bg-rose-500 text-white py-4 rounded-lg font-semibold text-lg hover:bg-rose-600 transition-colors focus:outline-none"
+        {/* 하단 CTA */}
+        <Link
+          href="/test"
+          className="block w-full bg-rose-500 text-white py-4 rounded-lg font-semibold text-lg hover:bg-rose-600 transition-colors text-center"
         >
           테스트 시작하기
-        </button>
+        </Link>
       </div>
     </div>
   );

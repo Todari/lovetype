@@ -6,7 +6,6 @@ import { ITEMS } from "@/lib/questions";
 import { AnswerMap } from "@/lib/types";
 import { computeResult, isComplete } from "@/lib/scoring";
 import Likert from "@/components/Likert";
-import ProgressBar from "@/components/ProgressBar";
 
 const STORAGE_KEY = "lvti_answers";
 const QUESTIONS_PER_PAGE = 8; // 각 페이지당 8개 질문 (축당 8개)
@@ -145,6 +144,16 @@ export default function TestPage() {
         {/* Main Content */}
         <div className="max-w-[640px] mx-auto px-4 pb-4">
           <div className="space-y-4">
+            {/* Page Info */}
+            <div className="flex items-center justify-between pt-4">
+              <span className="text-sm font-medium text-gray-500">
+                {currentPage + 1} / {TOTAL_PAGES}
+              </span>
+              <span className="text-sm font-semibold text-rose-500">
+                {axisNames[currentPage]}
+              </span>
+            </div>
+
             {/* Questions List - Scrollable */}
             <div className="bg-white rounded-xl p-4 md:p-5 space-y-6">
             {currentPageItems.map((item, index) => {
@@ -185,7 +194,7 @@ export default function TestPage() {
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                     : "bg-gray-200 text-gray-900 hover:bg-gray-300"
                 }
-                focus:outline-none
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2
               `}
             >
               이전
@@ -194,7 +203,7 @@ export default function TestPage() {
               <button
                 type="button"
                 onClick={handleReset}
-                className="px-4 py-3 font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300 text-sm rounded-lg focus:outline-none"
+                className="px-4 py-3 font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300 text-sm rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
                 title="모든 선택지 초기화"
               >
                 초기화
@@ -210,7 +219,7 @@ export default function TestPage() {
                       ? "bg-rose-500 text-white hover:bg-rose-600"
                       : "bg-gray-100 text-gray-400 cursor-not-allowed"
                   }
-                  focus:outline-none
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2
                 `}
               >
                 {currentPage === TOTAL_PAGES - 1 ? "결과 보기" : "다음"}
