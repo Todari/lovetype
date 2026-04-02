@@ -22,18 +22,16 @@ const HeartIcon = ({ size, filled }: { size: string; filled: boolean }) => (
   </svg>
 );
 
-export default function Likert({ value, onChange }: LikertProps) {
-  // Size mapping: 양 옆으로 갈수록 커짐
-  const sizeMap: Record<number, string> = {
-    1: "w-12 h-12", // 가장 작음 (왼쪽 끝)
-    2: "w-14 h-14",
-    3: "w-16 h-16",
-    4: "w-16 h-16",
-    5: "w-14 h-14",
-    6: "w-12 h-12", // 가장 작음 (오른쪽 끝) - 아니다, 그렇다 방향 고려
-  };
+const ARIA_LABELS: Record<number, string> = {
+  1: "매우 아니다",
+  2: "아니다",
+  3: "약간 아니다",
+  4: "약간 그렇다",
+  5: "그렇다",
+  6: "매우 그렇다",
+};
 
-  // 실제로는 중앙이 작고 양 끝이 커야 하므로 재조정 (모바일 대응을 위해 크기 축소)
+export default function Likert({ value, onChange }: LikertProps) {
   const actualSizeMap: Record<number, string> = {
     1: "w-10 h-10", // 왼쪽 끝 - 가장 큼
     2: "w-9 h-9",
@@ -76,17 +74,15 @@ export default function Likert({ value, onChange }: LikertProps) {
                   border-none
                   p-0
                   transition-all duration-200
-                  focus:outline-none
-                  active:outline-none
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 focus-visible:rounded-full
                   ${
                     isSelected
                       ? "text-rose-600 scale-110"
                       : "text-gray-300 hover:text-gray-400 hover:scale-105"
                   }
                 `}
-                style={{ boxShadow: "none" }}
                 aria-pressed={isSelected}
-                aria-label={`선택지 ${num}`}
+                aria-label={ARIA_LABELS[num]}
               >
                 <HeartIcon size="100%" filled={isSelected} />
               </button>

@@ -21,11 +21,11 @@ export default function ResultsPageClient({ code }: ClientProps) {
     // Scroll to top when navigating to a new result page
     window.scrollTo(0, 0);
 
-    // Validate code format (4 letters, valid poles)
-    const validPoles = ["L", "F", "C", "A", "R", "P", "O", "E"];
+    // Validate code format (4 letters, each position must be valid pole pair)
+    const validByPosition = [["L", "F"], ["C", "A"], ["R", "P"], ["O", "E"]];
     if (
       code.length !== 4 ||
-      !code.split("").every((c) => validPoles.includes(c))
+      !code.split("").every((c, i) => validByPosition[i].includes(c))
     ) {
       router.push("/");
       return;

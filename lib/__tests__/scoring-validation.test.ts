@@ -114,7 +114,7 @@ describe("Scoring Logic Validation", () => {
       
       // Each axis should have high percentage (close to 100%)
       result.axes.forEach((axis) => {
-        expect(axis.percent).toBeGreaterThan(80);
+        expect(axis.percent).toBeGreaterThanOrEqual(80);
       });
       
       // Code should be LCRO

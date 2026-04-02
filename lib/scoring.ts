@@ -42,9 +42,8 @@ export function computeResult(answers: AnswerMap): Result {
       }
     }
 
-    // Determine pole: positive → first, negative → second, zero → use epsilon
-    const epsilon = 0.5;
-    const pole = sum >= epsilon ? "first" : "second";
+    // Determine pole: positive → first, negative → second, zero → first (기본값)
+    const pole = sum >= 0 ? "first" : "second";
     // Calculate percentage: -20 to +20 range maps to 0-100%
     // This represents how strongly the user leans toward one pole
     const percent = Math.min(100, Math.abs(sum) / MAX_SUM * 100);
