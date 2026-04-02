@@ -33,6 +33,61 @@ export function getDetailedDescription(code: string): string {
   return poles.map((pole) => DETAILED_DESCRIPTIONS[pole]).join(" ");
 }
 
+// 각 축별 궁합 설명 (궁합 비교 페이지에서도 사용)
+export const AXIS_DESCRIPTIONS: Record<
+  string,
+  { complementary: string; similar: string }
+> = {
+  L: {
+    complementary:
+      "주도적인 당신은 유연하게 맞춰주는 상대와 역할 분담이 명확해집니다.",
+    similar:
+      "주도적인 당신은 같은 성향의 상대와 빠른 결정을 내릴 수 있지만, 갈등 시 양보가 필요합니다.",
+  },
+  F: {
+    complementary:
+      "유연한 당신은 주도적으로 이끌어주는 상대와 안정적인 관계를 만듭니다.",
+    similar:
+      "유연한 당신은 같은 성향의 상대와 조화롭지만, 결정이 느려질 수 있습니다.",
+  },
+  C: {
+    complementary:
+      "애정 표현이 풍부한 당신은 안정적인 애정을 선호하는 상대와 균형잡힌 관계를 만듭니다.",
+    similar:
+      "애정 표현이 풍부한 당신은 같은 성향의 상대와 따뜻한 관계를 만들지만, 공간이 필요할 때를 이해해야 합니다.",
+  },
+  A: {
+    complementary:
+      "안정적인 당신은 따뜻한 애정 표현을 하는 상대와 신뢰와 따뜻함의 균형을 이룹니다.",
+    similar:
+      "안정적인 당신은 같은 성향의 상대와 깊은 신뢰를 쌓지만, 애정 표현을 늘리는 노력이 필요합니다.",
+  },
+  R: {
+    complementary:
+      "현실적인 당신은 열정적인 상대와 계획과 즉흥의 균형을 이룹니다.",
+    similar:
+      "현실적인 당신은 같은 성향의 상대와 안정적이지만, 가끔은 로맨틱한 순간이 필요합니다.",
+  },
+  P: {
+    complementary:
+      "열정적인 당신은 현실적인 판단을 도와주는 상대와 감성과 실용의 균형을 이룹니다.",
+    similar:
+      "열정적인 당신은 같은 성향의 상대와 뜨거운 관계를 만들지만, 현실적인 계획도 함께 세워야 합니다.",
+  },
+  O: {
+    complementary:
+      "낙관적인 당신은 진지한 태도를 가진 상대와 가벼움과 깊이의 균형을 이룹니다.",
+    similar:
+      "낙관적인 당신은 같은 성향의 상대와 즐거운 관계를 만들지만, 중요한 문제는 진지하게 다뤄야 합니다.",
+  },
+  E: {
+    complementary:
+      "진지한 당신은 가볍게 즐길 수 있는 상대와 깊이와 유연성의 균형을 이룹니다.",
+    similar:
+      "진지한 당신은 같은 성향의 상대와 깊은 관계를 만들지만, 가끔은 가볍게 즐기는 시간이 필요합니다.",
+  },
+};
+
 // 궁합 정보 생성 함수
 // 논리적 근거:
 // 4개 축(LF, CA, RP, OE)을 균등하게 반영하여 궁합을 판단합니다.
@@ -73,62 +128,7 @@ export function getCompatibility(code: string): {
     (c) => c !== code && !best.includes(c)
   );
 
-  // 각 축별 궁합 설명
-  const axisDescriptions: Record<
-    string,
-    { complementary: string; similar: string }
-  > = {
-    L: {
-      complementary:
-        "주도적인 당신은 유연하게 맞춰주는 상대와 역할 분담이 명확해집니다.",
-      similar:
-        "주도적인 당신은 같은 성향의 상대와 빠른 결정을 내릴 수 있지만, 갈등 시 양보가 필요합니다.",
-    },
-    F: {
-      complementary:
-        "유연한 당신은 주도적으로 이끌어주는 상대와 안정적인 관계를 만듭니다.",
-      similar:
-        "유연한 당신은 같은 성향의 상대와 조화롭지만, 결정이 느려질 수 있습니다.",
-    },
-    C: {
-      complementary:
-        "애정 표현이 풍부한 당신은 안정적인 애정을 선호하는 상대와 균형잡힌 관계를 만듭니다.",
-      similar:
-        "애정 표현이 풍부한 당신은 같은 성향의 상대와 따뜻한 관계를 만들지만, 공간이 필요할 때를 이해해야 합니다.",
-    },
-    A: {
-      complementary:
-        "안정적인 당신은 따뜻한 애정 표현을 하는 상대와 신뢰와 따뜻함의 균형을 이룹니다.",
-      similar:
-        "안정적인 당신은 같은 성향의 상대와 깊은 신뢰를 쌓지만, 애정 표현을 늘리는 노력이 필요합니다.",
-    },
-    R: {
-      complementary:
-        "현실적인 당신은 열정적인 상대와 계획과 즉흥의 균형을 이룹니다.",
-      similar:
-        "현실적인 당신은 같은 성향의 상대와 안정적이지만, 가끔은 로맨틱한 순간이 필요합니다.",
-    },
-    P: {
-      complementary:
-        "열정적인 당신은 현실적인 판단을 도와주는 상대와 감성과 실용의 균형을 이룹니다.",
-      similar:
-        "열정적인 당신은 같은 성향의 상대와 뜨거운 관계를 만들지만, 현실적인 계획도 함께 세워야 합니다.",
-    },
-    O: {
-      complementary:
-        "낙관적인 당신은 진지한 태도를 가진 상대와 가벼움과 깊이의 균형을 이룹니다.",
-      similar:
-        "낙관적인 당신은 같은 성향의 상대와 즐거운 관계를 만들지만, 중요한 문제는 진지하게 다뤄야 합니다.",
-    },
-    E: {
-      complementary:
-        "진지한 당신은 가볍게 즐길 수 있는 상대와 깊이와 유연성의 균형을 이룹니다.",
-      similar:
-        "진지한 당신은 같은 성향의 상대와 깊은 관계를 만들지만, 가끔은 가볍게 즐기는 시간이 필요합니다.",
-    },
-  };
-
-  const description = `관계에서 궁합은 서로 다른 특성이 보완될 때 시너지를 만듭니다. ${axisDescriptions[l].complementary} ${axisDescriptions[c].complementary} ${axisDescriptions[r].complementary} ${axisDescriptions[o].complementary}`;
+  const description = `관계에서 궁합은 서로 다른 특성이 보완될 때 시너지를 만듭니다. ${AXIS_DESCRIPTIONS[l].complementary} ${AXIS_DESCRIPTIONS[c].complementary} ${AXIS_DESCRIPTIONS[r].complementary} ${AXIS_DESCRIPTIONS[o].complementary}`;
 
   return { best: best.slice(0, 3), good: good.slice(0, 4), description };
 }

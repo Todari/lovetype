@@ -256,14 +256,21 @@ export default function ResultCard({
             </h4>
             <div className="flex flex-wrap gap-2">
               {getCompatibility(result.code).best.map((type) => (
-                <Link
-                  key={type}
-                  href={`/results/${type}?from=share`}
-                  scroll={true}
-                  className="px-3 py-1.5 bg-rose-500 text-white hover:bg-rose-600 transition-colors text-sm font-medium rounded-lg"
-                >
-                  {type}
-                </Link>
+                <div key={type} className="flex gap-1.5">
+                  <Link
+                    href={`/results/${type}?from=share`}
+                    scroll={true}
+                    className="px-3 py-1.5 bg-rose-500 text-white hover:bg-rose-600 transition-colors text-sm font-medium rounded-lg"
+                  >
+                    {type}
+                  </Link>
+                  <Link
+                    href={`/compare/${result.code}/${type}`}
+                    className="px-2 py-1.5 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors text-sm rounded-lg"
+                  >
+                    궁합
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -274,14 +281,21 @@ export default function ResultCard({
             </h4>
             <div className="flex flex-wrap gap-2">
               {getCompatibility(result.code).good.map((type) => (
-                <Link
-                  key={type}
-                  href={`/results/${type}?from=share`}
-                  scroll={true}
-                  className="px-3 py-1.5 bg-rose-400 text-white hover:bg-rose-500 transition-colors text-sm font-medium rounded-lg"
-                >
-                  {type}
-                </Link>
+                <div key={type} className="flex gap-1.5">
+                  <Link
+                    href={`/results/${type}?from=share`}
+                    scroll={true}
+                    className="px-3 py-1.5 bg-rose-400 text-white hover:bg-rose-500 transition-colors text-sm font-medium rounded-lg"
+                  >
+                    {type}
+                  </Link>
+                  <Link
+                    href={`/compare/${result.code}/${type}`}
+                    className="px-2 py-1.5 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors text-sm rounded-lg"
+                  >
+                    궁합
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
