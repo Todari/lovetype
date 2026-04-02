@@ -53,7 +53,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: 7,
-    text: "내가 직접 계획하고 실행하는 게 편하다.",
+    text: "의견이 갈리면 내가 먼저 방향을 제시한다.",
     axisPair: "LF",
     pole: "L",
   },
@@ -81,7 +81,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: 11,
-    text: "하루에도 몇 번 포옹/터치가 필요하다.",
+    text: "상대의 작은 변화도 알아채고 칭찬한다.",
     axisPair: "CA",
     pole: "C",
   },
@@ -156,7 +156,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: 23,
-    text: "큰 약속 전엔 리스크부터 확인한다.",
+    text: "감정보다 논리가 맞아야 결정이 편하다.",
     axisPair: "RP",
     pole: "R",
   },

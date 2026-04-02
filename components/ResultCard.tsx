@@ -5,6 +5,7 @@ import { Result } from "@/lib/types";
 import { getCompatibility } from "@/lib/copy";
 import { getTypeDetails } from "@/lib/typeDetails";
 import { TYPE_NAMES } from "@/lib/typeNames";
+import { TYPE_KEYWORDS } from "@/lib/typeKeywords";
 
 interface ResultCardProps {
   result: Result;
@@ -20,7 +21,7 @@ const AXIS_LABELS: Record<string, { first: string; second: string }> = {
 
 const SECTION_TITLES = {
   overview: "개요",
-  social: "사회·직장·인간관계 특징",
+  social: "사회·직장 관계 특징",
   relationship: "사랑/이성 관계 특징",
   strengths: "강점·매력",
   watchouts: "주의할 점",
@@ -87,18 +88,30 @@ export default function ResultCard({
             // CA(표현/절제)와 OE(낙관/성실)는 오른쪽에서 시작, 나머지는 왼쪽에서 시작
             const isRightToLeft = axis.pair === "CA" || axis.pair === "OE";
 
+            // 각 축의 알파벳 매핑
+            const axisLetters: Record<
+              string,
+              { first: string; second: string }
+            > = {
+              LF: { first: "L", second: "F" },
+              CA: { first: "C", second: "A" },
+              RP: { first: "R", second: "P" },
+              OE: { first: "O", second: "E" },
+            };
+            const letters = axisLetters[axis.pair];
+
             return (
               <div key={axis.pair} className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span
                     className={`font-medium ${isFirst ? "text-rose-600 font-bold" : "text-gray-700"}`}
                   >
-                    {labels.first}
+                    {labels.first} ({letters.first})
                   </span>
                   <span
                     className={`font-medium ${!isFirst ? "text-rose-600 font-bold" : "text-gray-700"}`}
                   >
-                    {labels.second}
+                    {labels.second} ({letters.second})
                   </span>
                 </div>
                 <div className="relative h-9 bg-gray-100 rounded-full overflow-hidden">
@@ -141,6 +154,22 @@ export default function ResultCard({
       {/* Type Details from lovetype16.md */}
       {typeDetails && (
         <div className="space-y-5">
+          {/* Keywords Chips */}
+          {TYPE_KEYWORDS[result.code] && (
+            <div className="bg-white rounded-xl p-5">
+              <div className="flex flex-wrap gap-2 justify-center">
+                {TYPE_KEYWORDS[result.code].map((keyword, index) => (
+                  <span
+                    key={index}
+                    className="px-4 py-2 bg-rose-50 text-rose-700 text-sm font-medium rounded-full border border-rose-200"
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Overview */}
           <div className="bg-white rounded-xl p-5">
             <h3 className="text-lg font-bold text-gray-900 mb-4">
@@ -151,7 +180,7 @@ export default function ResultCard({
             </div>
           </div>
 
-          {/* Social & Workplace */}
+          {/* Social */}
           <div className="bg-gray-50 rounded-xl p-5">
             <h3 className="text-lg font-bold text-gray-900 mb-4">
               {SECTION_TITLES.social}
