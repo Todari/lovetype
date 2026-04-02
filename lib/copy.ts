@@ -35,13 +35,14 @@ export function getDetailedDescription(code: string): string {
 
 // 궁합 정보 생성 함수
 // 논리적 근거:
-// 1. 보완적 궁합: 서로 다른 특성이 보완되어 조화를 이루는 경우 (역할 분담 명확)
-//    - LF: 주도적 + 유연함 = 결정과 실행의 균형
-//    - CA: 애정 표현 + 안정적 = 따뜻함과 신뢰의 균형
-//    - RP: 현실적 + 열정적 = 계획과 즉흥의 균형
-//    - OE: 낙관적 + 진지함 = 가벼움과 깊이의 균형
-// 2. 유사한 궁합: 비슷한 특성으로 이해가 쉬운 경우 (빠른 공감대 형성)
-// 3. 균형적 궁합: 일부는 비슷하고 일부는 보완적인 경우 (다양한 시너지)
+// 4개 축(LF, CA, RP, OE)을 균등하게 반영하여 궁합을 판단합니다.
+// 각 축의 보완성:
+//   - LF: 주도적 + 유연함 = 결정과 실행의 균형
+//   - CA: 애정 표현 + 안정적 = 따뜻함과 신뢰의 균형
+//   - RP: 현실적 + 열정적 = 계획과 즉흥의 균형
+//   - OE: 낙관적 + 진지함 = 가벼움과 깊이의 균형
+// 최고 궁합(best): 2개 축이 보완적인 조합 (4가지 축 쌍을 균등하게 커버)
+// 좋은 궁합(good): 1개 축만 보완적인 조합 (각 축별 1개씩)
 export function getCompatibility(code: string): {
   best: string[];
   good: string[];
@@ -55,23 +56,20 @@ export function getCompatibility(code: string): {
   const oppositeR = r === "R" ? "P" : "R";
   const oppositeO = o === "O" ? "E" : "O";
 
-  // 최고 궁합: 핵심 축(LF, CA)이 보완적이고, 나머지는 유사하거나 보완적
-  // LF와 CA는 관계의 기본 구조이므로 보완적일 때 가장 조화로움
-  const best1 = `${oppositeL}${oppositeC}${r}${o}`; // 핵심 2개 보완
-  const best2 = `${oppositeL}${oppositeC}${oppositeR}${o}`; // 핵심 2개 + RP 보완
-  const best3 = `${oppositeL}${oppositeC}${r}${oppositeO}`; // 핵심 2개 + OE 보완
-  const best4 = `${oppositeL}${c}${oppositeR}${oppositeO}`; // LF + RP+OE 보완
+  // 최고 궁합: 2개 축이 보완적인 조합 (4가지 축 쌍을 균등하게 커버)
+  const best1 = `${oppositeL}${oppositeC}${r}${o}`; // LF+CA 반대
+  const best2 = `${oppositeL}${c}${oppositeR}${o}`; // LF+RP 반대
+  const best3 = `${l}${oppositeC}${r}${oppositeO}`; // CA+OE 반대
+  const best4 = `${l}${c}${oppositeR}${oppositeO}`; // RP+OE 반대
 
-  // 좋은 궁합: 1-2개 축이 보완적이거나, 핵심 축 중 하나가 보완적
-  const good1 = `${oppositeL}${c}${r}${o}`; // LF만 보완
-  const good2 = `${l}${oppositeC}${r}${o}`; // CA만 보완
-  const good3 = `${l}${c}${oppositeR}${o}`; // RP만 보완
-  const good4 = `${l}${c}${r}${oppositeO}`; // OE만 보완
-  const good5 = `${oppositeL}${c}${oppositeR}${o}`; // LF+RP 보완
-  const good6 = `${l}${oppositeC}${oppositeR}${oppositeO}`; // CA+RP+OE 보완
+  // 좋은 궁합: 1개 축만 보완적인 조합 (각 축별 1개씩)
+  const good1 = `${oppositeL}${c}${r}${o}`; // LF만 반대
+  const good2 = `${l}${oppositeC}${r}${o}`; // CA만 반대
+  const good3 = `${l}${c}${oppositeR}${o}`; // RP만 반대
+  const good4 = `${l}${c}${r}${oppositeO}`; // OE만 반대
 
   const best = [best1, best2, best3, best4].filter((c) => c !== code);
-  const good = [good1, good2, good3, good4, good5, good6].filter(
+  const good = [good1, good2, good3, good4].filter(
     (c) => c !== code && !best.includes(c)
   );
 
@@ -130,7 +128,7 @@ export function getCompatibility(code: string): {
     },
   };
 
-  const description = `관계에서 궁합은 크게 두 가지 방식으로 작동합니다. 첫째, 보완적 관계는 서로 다른 특성이 조화를 이루어 역할 분담이 명확해집니다. ${axisDescriptions[l].complementary} ${axisDescriptions[c].complementary} 둘째, 유사한 관계는 비슷한 특성으로 빠른 이해와 공감대를 형성합니다. ${axisDescriptions[r].similar} ${axisDescriptions[o].similar} 최고의 궁합은 핵심 축(LF, CA)이 보완적일 때이며, 이는 관계의 기본 구조를 안정적으로 만듭니다.`;
+  const description = `관계에서 궁합은 서로 다른 특성이 보완될 때 시너지를 만듭니다. ${axisDescriptions[l].complementary} ${axisDescriptions[c].complementary} ${axisDescriptions[r].complementary} ${axisDescriptions[o].complementary}`;
 
   return { best: best.slice(0, 3), good: good.slice(0, 4), description };
 }
