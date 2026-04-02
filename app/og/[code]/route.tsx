@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { TYPE_NAMES } from "@/lib/typeNames";
+import { TYPE_KEYWORDS } from "@/lib/typeKeywords";
 
 export const runtime = "edge";
 
@@ -23,7 +24,8 @@ export async function GET(
   const { code } = await params;
   const typeInfo = TYPE_NAMES.find((type) => type.code === code);
   const typeName = typeInfo?.name || `${code} 유형`;
-  const summary = typeInfo?.summary || "";
+  const catchphrase = typeInfo?.catchphrase || "";
+  const keywords = TYPE_KEYWORDS[code] || [];
 
   const fontData = await loadFont();
   const fontFamily = fontData ? "NotoSansKR" : "sans-serif";
@@ -38,75 +40,111 @@ export async function GET(
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#f9fafb",
-          backgroundImage: "linear-gradient(to bottom, #ffffff, #f9fafb)",
+          backgroundColor: "#fff1f2",
+          backgroundImage:
+            "linear-gradient(135deg, #fff1f2 0%, #ffffff 50%, #fce7f3 100%)",
           fontFamily,
+          position: "relative",
         }}
       >
+        {/* LVTI 브랜드 (좌상단) */}
+        <div
+          style={{
+            position: "absolute",
+            top: 40,
+            left: 60,
+            fontSize: "28px",
+            fontWeight: "bold",
+            color: "#f43f5e",
+            fontFamily,
+          }}
+        >
+          LVTI
+        </div>
+
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: "80px",
+            padding: "60px 80px",
             maxWidth: "1200px",
           }}
         >
-          {/* Type Code */}
+          {/* 유형 이름 (가장 큼) */}
           <div
             style={{
-              fontSize: "120px",
+              fontSize: "56px",
               fontWeight: "bold",
-              color: "#f43f5e",
-              marginBottom: "20px",
-              fontFamily,
-            }}
-          >
-            {code}
-          </div>
-
-          {/* Type Name */}
-          <div
-            style={{
-              fontSize: "48px",
-              fontWeight: "600",
               color: "#111827",
-              marginBottom: "40px",
               textAlign: "center",
+              marginBottom: "16px",
               fontFamily,
             }}
           >
             {typeName}
           </div>
 
-          {/* Summary */}
+          {/* 코드 뱃지 */}
           <div
             style={{
-              fontSize: "32px",
-              color: "#4b5563",
-              textAlign: "center",
-              lineHeight: "1.6",
-              maxWidth: "1000px",
-              fontFamily,
-            }}
-          >
-            {summary.substring(0, 100)}
-            {summary.length > 100 ? "..." : ""}
-          </div>
-
-          {/* LVTI Brand */}
-          <div
-            style={{
-              fontSize: "36px",
+              fontSize: "24px",
               fontWeight: "bold",
               color: "#f43f5e",
-              marginTop: "60px",
+              backgroundColor: "#fff1f2",
+              padding: "6px 20px",
+              borderRadius: "9999px",
+              border: "2px solid #fda4af",
+              marginBottom: "32px",
               fontFamily,
             }}
           >
-            LVTI
+            {code}
           </div>
+
+          {/* 캐치프레이즈 */}
+          {catchphrase && (
+            <div
+              style={{
+                fontSize: "32px",
+                color: "#6b7280",
+                textAlign: "center",
+                marginBottom: "40px",
+                fontFamily,
+              }}
+            >
+              {`\u201C${catchphrase}\u201D`}
+            </div>
+          )}
+
+          {/* 키워드 칩 */}
+          {keywords.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              {keywords.map((kw) => (
+                <div
+                  key={kw}
+                  style={{
+                    fontSize: "20px",
+                    backgroundColor: "#ffe4e6",
+                    color: "#be123c",
+                    padding: "8px 16px",
+                    borderRadius: "9999px",
+                    margin: "6px",
+                    fontFamily,
+                  }}
+                >
+                  {kw}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     ),
@@ -126,4 +164,3 @@ export async function GET(
     }
   );
 }
-

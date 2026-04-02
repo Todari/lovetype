@@ -29,6 +29,14 @@ const SECTION_TITLES = {
   forSelf: "발전 팁(스스로)",
 };
 
+function getIntensityLabel(percent: number, labels: { first: string; second: string }, pole: "first" | "second"): string {
+  const label = pole === "first" ? labels.first : labels.second;
+  if (percent < 5) return `${label} 성향`;
+  if (percent < 20) return `약간 ${label}적`;
+  if (percent < 40) return `${label}적`;
+  return `매우 ${label}적`;
+}
+
 // 마크다운 볼드 처리 함수
 function formatText(text: string) {
   const parts = text.split(/(\*\*.*?\*\*)/g);
@@ -58,18 +66,25 @@ export default function ResultCard({
       {/* Type Code Badge */}
       <div className="text-center space-y-3">
         <div className="inline-block">
-          <div className="text-4xl font-bold text-rose-500 mb-2">
-            {result.code}
-          </div>
           {typeInfo && (
-            <div className="text-lg font-semibold text-gray-800 mb-2">
+            <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               {typeInfo.name}
             </div>
           )}
-          {isBalanced && isFromTest && (
-            <span className="inline-block px-3 py-1 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg">
-              균형형
+          <div className="inline-flex items-center gap-2">
+            <span className="inline-block px-3 py-1 bg-rose-50 text-rose-500 text-sm font-bold rounded-full border border-rose-200">
+              {result.code}
             </span>
+            {isBalanced && isFromTest && (
+              <span className="inline-block px-3 py-1 bg-gray-200 text-gray-800 text-sm font-medium rounded-full">
+                균형형
+              </span>
+            )}
+          </div>
+          {typeInfo?.catchphrase && (
+            <p className="text-[15px] text-gray-600 mt-3 italic">
+              &ldquo;{typeInfo.catchphrase}&rdquo;
+            </p>
           )}
         </div>
       </div>
@@ -144,6 +159,9 @@ export default function ResultCard({
                       {Math.round(displayPercent)}%
                     </div>
                   </div>
+                </div>
+                <div className="text-xs text-center text-gray-500 mt-1">
+                  {getIntensityLabel(graphPercent, labels, axis.pole)}
                 </div>
               </div>
             );
