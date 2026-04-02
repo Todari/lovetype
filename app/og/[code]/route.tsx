@@ -3,6 +3,19 @@ import { TYPE_NAMES } from "@/lib/typeNames";
 
 export const runtime = "edge";
 
+const FONT_URL =
+  "https://cdn.jsdelivr.net/fontsource/fonts/noto-sans-kr@latest/korean-700-normal.woff";
+
+async function loadFont(): Promise<ArrayBuffer | null> {
+  try {
+    const response = await fetch(FONT_URL);
+    if (!response.ok) return null;
+    return await response.arrayBuffer();
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ code: string }> }
@@ -11,6 +24,9 @@ export async function GET(
   const typeInfo = TYPE_NAMES.find((type) => type.code === code);
   const typeName = typeInfo?.name || `${code} 유형`;
   const summary = typeInfo?.summary || "";
+
+  const fontData = await loadFont();
+  const fontFamily = fontData ? "NotoSansKR" : "sans-serif";
 
   return new ImageResponse(
     (
@@ -24,6 +40,7 @@ export async function GET(
           justifyContent: "center",
           backgroundColor: "#f9fafb",
           backgroundImage: "linear-gradient(to bottom, #ffffff, #f9fafb)",
+          fontFamily,
         }}
       >
         <div
@@ -43,6 +60,7 @@ export async function GET(
               fontWeight: "bold",
               color: "#f43f5e",
               marginBottom: "20px",
+              fontFamily,
             }}
           >
             {code}
@@ -56,6 +74,7 @@ export async function GET(
               color: "#111827",
               marginBottom: "40px",
               textAlign: "center",
+              fontFamily,
             }}
           >
             {typeName}
@@ -69,6 +88,7 @@ export async function GET(
               textAlign: "center",
               lineHeight: "1.6",
               maxWidth: "1000px",
+              fontFamily,
             }}
           >
             {summary.substring(0, 100)}
@@ -82,6 +102,7 @@ export async function GET(
               fontWeight: "bold",
               color: "#f43f5e",
               marginTop: "60px",
+              fontFamily,
             }}
           >
             LVTI
@@ -92,6 +113,16 @@ export async function GET(
     {
       width: 1200,
       height: 630,
+      ...(fontData && {
+        fonts: [
+          {
+            name: "NotoSansKR",
+            data: fontData,
+            style: "normal" as const,
+            weight: 700,
+          },
+        ],
+      }),
     }
   );
 }

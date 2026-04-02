@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 interface ShareButtonsProps {
@@ -13,12 +13,18 @@ export default function ShareButtons({
   isFromTest = false,
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [canShare, setCanShare] = useState(false);
   const router = useRouter();
 
   const shareUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/results/${code}?from=share`
       : "";
+
+  useEffect(() => {
+    setCanShare(typeof navigator !== "undefined" && !!navigator.share);
+  }, []);
 
   const handleCopy = async () => {
     try {
@@ -35,21 +41,76 @@ export default function ShareButtons({
     router.push("/test");
   };
 
+  const handleShare = async () => {
+    if (canShare) {
+      try {
+        await navigator.share({
+          title: `LVTI - 나의 관계 유형은 ${code}`,
+          text: "나의 관계 유형 결과를 확인해보세요!",
+          url: shareUrl,
+        });
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          console.error("Failed to share:", err);
+        }
+      }
+    } else {
+      const text = `나의 LVTI 관계 유형은 ${code}! 나의 관계 유형을 확인해보세요`;
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleDownloadImage = async () => {
+    setDownloading(true);
+    try {
+      const response = await fetch(`/og/${code}`);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `lvti-${code}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to download image:", err);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center space-y-4">
-      <div className="flex gap-3 w-full max-w-md">
+      <div className="grid grid-cols-2 gap-3 w-full max-w-md">
         <button
           type="button"
           onClick={handleReset}
-          className="px-6 py-3 font-medium transition-colors bg-gray-200 text-gray-900 hover:bg-gray-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 flex-1"
+          className="px-6 py-3 font-medium transition-colors bg-gray-200 text-gray-900 hover:bg-gray-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
         >
           {isFromTest ? "다시 테스트하기" : "나도 테스트해보기"}
         </button>
         <button
           type="button"
+          onClick={handleShare}
+          className="px-6 py-3 font-medium transition-colors bg-rose-500 text-white hover:bg-rose-600 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
+        >
+          {canShare ? "공유하기" : "트위터 공유"}
+        </button>
+        <button
+          type="button"
+          onClick={handleDownloadImage}
+          disabled={downloading}
+          className="px-6 py-3 font-medium transition-colors bg-gray-200 text-gray-900 hover:bg-gray-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 disabled:opacity-50"
+        >
+          {downloading ? "저장 중..." : "결과 이미지 저장"}
+        </button>
+        <button
+          type="button"
           onClick={handleCopy}
           className={`
-            px-6 py-3 font-medium transition-colors rounded-lg flex-1
+            px-6 py-3 font-medium transition-colors rounded-lg
             ${
               copied
                 ? "bg-gray-700 text-white"
