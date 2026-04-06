@@ -66,7 +66,7 @@ export default function ShareButtons({
   const handleDownloadImage = async () => {
     setDownloading(true);
     try {
-      const response = await fetch(`/og/${code}`);
+      const response = await fetch(`/og/${code}?format=share`);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
