@@ -1,5 +1,15 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import { TYPE_NAMES } from "@/lib/typeNames";
+
+export const metadata: Metadata = {
+  title: "16가지 관계 유형",
+  description: "LVTI의 16가지 관계 유형을 한눈에 확인하세요. 각 유형의 특징, 강점, 궁합 정보를 제공합니다.",
+  openGraph: {
+    title: "16가지 관계 유형",
+    description: "LVTI의 16가지 관계 유형을 한눈에 확인하세요.",
+  },
+};
 
 export default function TypesPage() {
   return (
@@ -23,14 +33,14 @@ export default function TypesPage() {
               className="bg-white rounded-xl p-4 hover:bg-gray-50 transition-colors hover:shadow-sm"
             >
               <div className="space-y-2">
-                <div className="text-lg font-bold text-rose-500">
-                  {type.code}
-                </div>
-                <div className="text-sm font-semibold text-gray-900 leading-tight">
+                <div className="text-sm font-bold text-gray-900 leading-tight">
                   {type.name}
                 </div>
-                <div className="text-xs text-gray-600 leading-relaxed line-clamp-3">
-                  {type.summary}
+                <span className="inline-block px-2 py-0.5 bg-rose-50 text-rose-500 text-xs font-bold rounded-full border border-rose-200">
+                  {type.code}
+                </span>
+                <div className="text-xs text-gray-600 leading-relaxed">
+                  {type.catchphrase}
                 </div>
               </div>
             </Link>

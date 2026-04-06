@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Result } from "@/lib/types";
 import { getCompatibility } from "@/lib/copy";
@@ -60,6 +61,17 @@ export default function ResultCard({
   const isBalanced = result.axes.some((axis) => Math.abs(axis.value) < 0.5);
   const typeDetails = getTypeDetails(result.code);
   const typeInfo = TYPE_NAMES.find((type) => type.code === result.code);
+
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+
+  const toggleSection = (key: string) => {
+    setExpandedSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
 
   return (
     <div className="w-full max-w-[640px] mx-auto space-y-5">
@@ -200,12 +212,26 @@ export default function ResultCard({
 
           {/* Social */}
           <div className="bg-gray-50 rounded-xl p-5">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              {SECTION_TITLES.social}
-            </h3>
-            <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line">
-              {formatText(typeDetails.social)}
-            </div>
+            <button
+              type="button"
+              onClick={() => toggleSection("social")}
+              className="w-full flex items-center justify-between text-lg font-bold text-gray-900"
+            >
+              <span>{SECTION_TITLES.social}</span>
+              <svg
+                className={`w-5 h-5 text-gray-400 transition-transform ${expandedSections.has("social") ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.has("social") && (
+              <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line mt-4">
+                {formatText(typeDetails.social)}
+              </div>
+            )}
           </div>
 
           {/* Relationship */}
@@ -220,42 +246,98 @@ export default function ResultCard({
 
           {/* Strengths */}
           <div className="bg-gray-50 rounded-xl p-5">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              {SECTION_TITLES.strengths}
-            </h3>
-            <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line">
-              {formatText(typeDetails.strengths)}
-            </div>
+            <button
+              type="button"
+              onClick={() => toggleSection("strengths")}
+              className="w-full flex items-center justify-between text-lg font-bold text-gray-900"
+            >
+              <span>{SECTION_TITLES.strengths}</span>
+              <svg
+                className={`w-5 h-5 text-gray-400 transition-transform ${expandedSections.has("strengths") ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.has("strengths") && (
+              <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line mt-4">
+                {formatText(typeDetails.strengths)}
+              </div>
+            )}
           </div>
 
           {/* Watchouts */}
           <div className="bg-white rounded-xl p-5">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              {SECTION_TITLES.watchouts}
-            </h3>
-            <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line">
-              {formatText(typeDetails.watchouts)}
-            </div>
+            <button
+              type="button"
+              onClick={() => toggleSection("watchouts")}
+              className="w-full flex items-center justify-between text-lg font-bold text-gray-900"
+            >
+              <span>{SECTION_TITLES.watchouts}</span>
+              <svg
+                className={`w-5 h-5 text-gray-400 transition-transform ${expandedSections.has("watchouts") ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.has("watchouts") && (
+              <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line mt-4">
+                {formatText(typeDetails.watchouts)}
+              </div>
+            )}
           </div>
 
           {/* For Others */}
           <div className="bg-gray-50 rounded-xl p-5">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              {SECTION_TITLES.forOthers}
-            </h3>
-            <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line">
-              {formatText(typeDetails.forOthers)}
-            </div>
+            <button
+              type="button"
+              onClick={() => toggleSection("forOthers")}
+              className="w-full flex items-center justify-between text-lg font-bold text-gray-900"
+            >
+              <span>{SECTION_TITLES.forOthers}</span>
+              <svg
+                className={`w-5 h-5 text-gray-400 transition-transform ${expandedSections.has("forOthers") ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.has("forOthers") && (
+              <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line mt-4">
+                {formatText(typeDetails.forOthers)}
+              </div>
+            )}
           </div>
 
           {/* For Self */}
           <div className="bg-white rounded-xl p-5">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              {SECTION_TITLES.forSelf}
-            </h3>
-            <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line">
-              {formatText(typeDetails.forSelf)}
-            </div>
+            <button
+              type="button"
+              onClick={() => toggleSection("forSelf")}
+              className="w-full flex items-center justify-between text-lg font-bold text-gray-900"
+            >
+              <span>{SECTION_TITLES.forSelf}</span>
+              <svg
+                className={`w-5 h-5 text-gray-400 transition-transform ${expandedSections.has("forSelf") ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.has("forSelf") && (
+              <div className="text-[15px] text-gray-800 leading-loose whitespace-pre-line mt-4">
+                {formatText(typeDetails.forSelf)}
+              </div>
+            )}
           </div>
         </div>
       )}
