@@ -34,18 +34,18 @@ export async function generateMetadata({
       : "https://lvti.vercel.app";
 
   return {
-    title: `${code1} vs ${code2} 궁합 분석 | LVTI`,
-    description: `${typeName1}과 ${typeName2}의 궁합을 확인해보세요`,
+    title: `${typeName1} vs ${typeName2} 궁합 분석`,
+    description: `${typeName1}(${code1})과 ${typeName2}(${code2})의 궁합을 확인해보세요. 두 유형의 관계 역학과 시너지를 분석합니다.`,
     openGraph: {
-      title: `${code1} vs ${code2} 궁합 분석`,
-      description: `${typeName1}과 ${typeName2}의 궁합을 확인해보세요`,
+      title: `${typeName1} vs ${typeName2} 궁합 분석`,
+      description: `${typeName1}(${code1})과 ${typeName2}(${code2})의 궁합을 확인해보세요. 두 유형의 관계 역학과 시너지를 분석합니다.`,
       type: "website",
       url: `${baseUrl}/compare/${code1}/${code2}`,
     },
     twitter: {
       card: "summary",
-      title: `${code1} vs ${code2} 궁합 분석`,
-      description: `${typeName1}과 ${typeName2}의 궁합을 확인해보세요`,
+      title: `${typeName1} vs ${typeName2} 궁합 분석`,
+      description: `${typeName1}(${code1})과 ${typeName2}(${code2})의 궁합을 확인해보세요. 두 유형의 관계 역학과 시너지를 분석합니다.`,
     },
   };
 }
