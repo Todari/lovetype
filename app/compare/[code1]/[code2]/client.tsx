@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getCompatibility, AXIS_DESCRIPTIONS } from "@/lib/copy";
 import { TYPE_NAMES } from "@/lib/typeNames";
 import { TYPE_KEYWORDS } from "@/lib/typeKeywords";
+import { trackEvent } from "@/lib/analytics";
 
 interface CompareClientProps {
   code1: string;
@@ -63,6 +64,10 @@ function getCompatibilityGrade(
 
 export default function CompareClient({ code1, code2 }: CompareClientProps) {
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    trackEvent("click_compare", { code1, code2 });
+  }, [code1, code2]);
 
   const typeInfo1 = TYPE_NAMES.find((t) => t.code === code1);
   const typeInfo2 = TYPE_NAMES.find((t) => t.code === code2);

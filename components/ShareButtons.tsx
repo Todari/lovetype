@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TYPE_NAMES } from "@/lib/typeNames";
+import { trackEvent } from "@/lib/analytics";
 
 interface ShareButtonsProps {
   code: string;
@@ -31,6 +32,7 @@ export default function ShareButtons({
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
+      trackEvent("share_result", { method: "copy", result_code: code });
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -39,11 +41,13 @@ export default function ShareButtons({
   };
 
   const handleReset = () => {
+    trackEvent("click_retake", { result_code: code });
     localStorage.removeItem("lvti_answers");
     router.push("/test");
   };
 
   const handleShare = async () => {
+    trackEvent("share_result", { method: canShare ? "native" : "twitter", result_code: code });
     if (canShare) {
       try {
         await navigator.share({
@@ -64,6 +68,7 @@ export default function ShareButtons({
   };
 
   const handleDownloadImage = async () => {
+    trackEvent("share_result", { method: "image", result_code: code });
     setDownloading(true);
     try {
       const response = await fetch(`/og/${code}?format=share`);

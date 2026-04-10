@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AnswerMap, Result } from "@/lib/types";
 import { computeResult } from "@/lib/scoring";
 import ResultCard from "@/components/ResultCard";
 import ShareButtons from "@/components/ShareButtons";
+import { trackEvent } from "@/lib/analytics";
 
 interface ClientProps {
   code: string;
@@ -13,9 +14,11 @@ interface ClientProps {
 
 export default function ResultsPageClient({ code }: ClientProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFromTest, setIsFromTest] = useState(false);
+  const [tracked, setTracked] = useState(false);
 
   useEffect(() => {
     // Scroll to top when navigating to a new result page
@@ -81,6 +84,17 @@ export default function ResultsPageClient({ code }: ClientProps) {
     setIsFromTest(false);
     setLoading(false);
   }, [code, router]);
+
+  useEffect(() => {
+    if (!loading && !tracked) {
+      trackEvent("view_result", {
+        result_code: code,
+        is_own: isFromTest,
+        source: searchParams.get("from") || "direct",
+      });
+      setTracked(true);
+    }
+  }, [loading, tracked, code, isFromTest, searchParams]);
 
   if (loading) {
     return (

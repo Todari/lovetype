@@ -6,6 +6,7 @@ import { ITEMS } from "@/lib/questions";
 import { AnswerMap } from "@/lib/types";
 import { computeResult, isComplete } from "@/lib/scoring";
 import Likert from "@/components/Likert";
+import { trackEvent } from "@/lib/analytics";
 
 const STORAGE_KEY = "lvti_answers";
 const QUESTIONS_PER_PAGE = 8; // 각 페이지당 8개 질문 (축당 8개)
@@ -63,6 +64,7 @@ export default function TestPage() {
 
   const handleNext = () => {
     if (currentPage < TOTAL_PAGES - 1) {
+      trackEvent("complete_test_page", { page_number: currentPage });
       setCurrentPage(currentPage + 1);
       // Scroll to top when moving to next page
       setTimeout(() => {
@@ -72,6 +74,7 @@ export default function TestPage() {
       // Submit
       if (isComplete(answers)) {
         const result = computeResult(answers);
+        trackEvent("complete_test", { result_code: result.code });
         router.push(`/results/${result.code}`);
       }
     }

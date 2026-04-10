@@ -1,4 +1,4 @@
-import Link from "next/link";
+import StartTestLink from "@/components/StartTestLink";
 
 export default function Home() {
   return (
@@ -17,12 +17,11 @@ export default function Home() {
               32개의 질문으로 알아보는 나의 관계 유형
             </p>
           </div>
-          <Link
-            href="/test"
+          <StartTestLink
             className="inline-block bg-rose-500 text-white px-12 py-4 rounded-full font-semibold text-lg hover:bg-rose-600 transition-colors"
           >
             테스트 시작하기
-          </Link>
+          </StartTestLink>
         </div>
 
         {/* 4개 축 - 간략 카드 */}
@@ -67,12 +66,11 @@ export default function Home() {
         </p>
 
         {/* 하단 CTA */}
-        <Link
-          href="/test"
+        <StartTestLink
           className="block w-full bg-rose-500 text-white py-4 rounded-full font-semibold text-lg hover:bg-rose-600 transition-colors text-center"
         >
           테스트 시작하기
-        </Link>
+        </StartTestLink>
       </div>
     </div>
   );
