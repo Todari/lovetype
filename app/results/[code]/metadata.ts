@@ -7,7 +7,7 @@ export function generateMetadata(code: string, baseUrl?: string): Metadata {
   const catchphrase = typeInfo?.catchphrase || "";
   const summary = typeInfo?.summary || `LVTI ${code} 유형에 대한 상세한 분석을 확인해보세요.`;
   const description = catchphrase ? `"${catchphrase}" - ${summary}` : summary;
-  const siteUrl = baseUrl || (typeof window !== "undefined" ? window.location.origin : "https://lvti.vercel.app");
+  const siteUrl = baseUrl || (typeof window !== "undefined" ? window.location.origin : "https://lvti.my");
 
   return {
     title: `${typeName} (${code})`,

@@ -2,11 +2,12 @@ import { MetadataRoute } from "next";
 import { TYPE_NAMES } from "@/lib/typeNames";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://lvti.vercel.app";
+  const baseUrl = "https://lvti.my";
+  const lastModified = new Date();
 
   const typePages = TYPE_NAMES.map((type) => ({
     url: `${baseUrl}/results/${type.code}`,
-    lastModified: new Date(),
+    lastModified,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
@@ -14,19 +15,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "weekly" as const,
       priority: 1.0,
     },
     {
       url: `${baseUrl}/test`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.9,
     },
     {
       url: `${baseUrl}/types`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
