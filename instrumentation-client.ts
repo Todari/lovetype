@@ -6,3 +6,5 @@ Sentry.init({
   enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
   initialScope: { tags: { service: "lvti" } },
 });
+
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

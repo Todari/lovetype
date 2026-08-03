@@ -23,9 +23,18 @@ export default function Footer() {
             </a>
             으로 연락해주세요.
           </p>
+          <p>
+            <a
+              href="https://github.com/Todari/lovetype"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-rose-500 hover:text-rose-600 underline font-medium"
+            >
+              GitHub에서 공개 코드 보기
+            </a>
+          </p>
         </div>
       </div>
     </footer>
   );
 }
-

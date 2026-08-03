@@ -1,131 +1,90 @@
-# LVTI - 관계 유형 테스트
+# LVTI
 
-Love Test Investigation - 16가지 관계 유형을 알아보는 비공식 테스트 애플리케이션입니다.
+32개 질문으로 연애할 때의 의사결정·표현·책임·에너지 성향을 분석하는 16가지 관계 유형
+테스트입니다. 가입 없이 브라우저에서 바로 진행하고 유형별 결과와 두 유형의 궁합을 공유할 수
+있습니다.
 
-## ⚠️ 면책 조항
+[![서비스](https://img.shields.io/badge/서비스-lvti.my-ef4444)](https://lvti.my)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-이 테스트는 독립적으로 제작된 비공식 테스트이며, 엔터테인먼트 목적으로만 사용됩니다.
+> LVTI는 독립적으로 제작된 비공식 엔터테인먼트 콘텐츠입니다. 전문적인 심리검사나 상담을
+> 대체하지 않습니다.
 
-## 🚀 빠른 시작
+## 주요 기능
 
-### 개발 환경 설정
+- 4개 차원, 32개 문항으로 16가지 유형 계산
+- 진행 상황 자동 저장과 이전 문항 수정
+- 유형별 특징, 강점, 주의점, 연애·직장 관계 설명
+- 두 유형의 차원별 궁합 비교
+- 결과별 고정 URL과 동적 Open Graph 이미지
+- 모바일·키보드 접근성을 고려한 반응형 UI
+- 회원가입과 서버 응답 저장이 필요 없는 클라이언트 계산
+
+## 유형 모델
+
+| 차원 | 의미 |
+| --- | --- |
+| L ↔ F | 논리 중심 의사결정 ↔ 감정 중심 의사결정 |
+| C ↔ A | 실용적 배려 ↔ 정서적 애정 표현 |
+| R ↔ P | 책임감과 주도 ↔ 인내와 수용 |
+| O ↔ E | 외향적 에너지 ↔ 내향적 에너지 |
+
+각 응답을 결정론적 점수 규칙으로 환산해 `LCRO`, `FAPE` 같은 네 글자 코드를 만듭니다.
+유형 계산은 [`lib/scoring.ts`](lib/scoring.ts)에 있고 회귀 테스트로 경계값을 검증합니다.
+
+## 페이지 구성
+
+| 경로 | 역할 |
+| --- | --- |
+| `/` | 서비스 소개와 테스트 시작 |
+| `/test` | 32개 질문 진행 |
+| `/types` | 16가지 유형 전체 탐색 |
+| `/results/[code]` | 유형별 상세 결과와 공유 |
+| `/compare/[code1]/[code2]` | 두 유형 궁합 비교 |
+| `/og/[code]` | 결과별 Open Graph 이미지 생성 |
+
+## SEO와 공유
+
+- 홈 canonical, robots, sitemap
+- 16개 결과 페이지 정적 생성과 페이지별 metadata
+- WebSite·Organization·WebApplication 구조화 데이터
+- 결과별 Open Graph·Twitter metadata와 이미지
+- 검색·AI 답변용 [`public/llms.txt`](public/llms.txt)
+
+## 로컬 실행
+
+Node.js 20+와 npm이 필요합니다.
 
 ```bash
-# 의존성 설치
 npm install
-
-# 개발 서버 실행
 npm run dev
 ```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
+`http://localhost:3000`에서 확인할 수 있습니다. 기본 기능에는 환경변수가 필요하지 않습니다.
+Google Analytics와 Sentry는 배포 환경에서 선택적으로 설정할 수 있습니다.
 
-### 프로덕션 빌드
+## 검증
 
 ```bash
-# 빌드
+npm test -- --runInBand
+npm run lint
 npm run build
-
-# 프로덕션 서버 실행
-npm start
 ```
 
-### 테스트 실행
+## 프라이버시
 
-```bash
-# 테스트 실행
-npm test
+- 답변과 진행 상태는 브라우저 `localStorage`에만 임시 저장됩니다.
+- 유형 점수는 브라우저에서 계산하며 응답 내용을 애플리케이션 서버에 저장하지 않습니다.
+- 테스트 완료 후 진행 상태를 정리합니다.
+- 오류·분석 도구를 활성화한 배포에서는 해당 제공자의 정책이 적용될 수 있습니다.
 
-# 테스트 감시 모드
-npm run test:watch
-```
+## 기여와 보안
 
-## 📦 배포
+일반 버그와 개선 제안은 GitHub Issue로 남겨주세요. 취약점이나 자격증명 노출은 공개 Issue 대신
+[보안 정책](SECURITY.md)의 비공개 제보 경로를 이용해 주세요.
 
-### Vercel에 배포하기
+## 라이선스
 
-1. [Vercel](https://vercel.com)에 계정을 만듭니다.
-2. GitHub/GitLab/Bitbucket 저장소를 연결합니다.
-3. 프로젝트를 import합니다.
-4. Vercel이 자동으로 Next.js를 감지하고 배포합니다.
-
-또는 Vercel CLI를 사용:
-
-```bash
-npm i -g vercel
-vercel
-```
-
-### 환경 변수
-
-현재 버전에서는 환경 변수가 필요하지 않습니다. 모든 데이터는 클라이언트 사이드에서 처리됩니다.
-
-## 🏗️ 프로젝트 구조
-
-```
-/app
-  /api              # (비어있음)
-  /results/[code]   # 결과 페이지
-  /page.tsx         # 랜딩 + 퀴즈 페이지
-  layout.tsx        # 루트 레이아웃
-  globals.css       # 전역 스타일
-
-/components
-  ProgressBar.tsx   # 진행률 표시
-  QuestionCard.tsx  # 질문 카드
-  Likert.tsx        # Likert 스케일 버튼
-  ResultCard.tsx    # 결과 카드
-  ShareButtons.tsx  # 공유 버튼
-
-/lib
-  types.ts          # TypeScript 타입 정의
-  questions.ts      # 질문 데이터
-  scoring.ts        # 점수 계산 로직
-  copy.ts           # 결과 텍스트 템플릿
-```
-
-## 🧪 테스트
-
-### 스코어링 로직 테스트
-
-`/lib/scoring.ts`의 `computeResult` 함수는 다음과 같이 동작합니다:
-
-- Likert 1-5 스케일을 -2 ~ +2로 변환
-- 역문항(reverse)은 6 - value로 변환 후 계산
-- 각 축 쌍(LF, CA, RP, OE)별로 합산
-- 양수 → 첫 번째 극, 음수 → 두 번째 극
-- 4글자 타입 코드 생성
-
-## 🔒 프라이버시
-
-- **모든 데이터는 로컬 브라우저에만 저장됩니다**
-- 서버로 데이터가 전송되지 않습니다
-- `localStorage`를 사용하여 진행 상황을 저장합니다
-- 테스트 완료 후 자동으로 저장된 데이터가 삭제됩니다
-
-## 📝 기능
-
-- ✅ 32개 질문 (4개 축 × 8개 질문)
-- ✅ 진행률 표시 및 자동 저장
-- ✅ 16가지 관계 유형 결과
-- ✅ 축별 점수 시각화
-- ✅ 강점/주의사항/팁 제공
-- ✅ 결과 공유 링크 생성
-- ✅ 키보드 접근성 지원
-- ✅ 반응형 디자인
-
-## 🛠️ 기술 스택
-
-- **Next.js 15+** (App Router)
-- **TypeScript**
-- **Tailwind CSS**
-- **React Hooks** (상태 관리)
-
-## 📄 라이선스
-
-이 프로젝트는 독립적으로 제작되었으며, 엔터테인먼트 목적으로만 사용됩니다.
-
-## 🤝 기여
-
-이슈나 개선 사항이 있으면 이슈를 등록해주세요.
-
+코드는 [MIT](LICENSE)로 공개합니다. 유형 문구를 인용할 때는 LVTI와
+[lvti.my](https://lvti.my)를 출처로 표시해 주세요.
